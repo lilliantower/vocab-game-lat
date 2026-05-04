@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Quest - Vocab Game</title>
+<style>
+body { font-family: Arial; text-align: center; background:#f4f4f4; }
+.container { max-width:700px; margin:auto; background:white; padding:20px; border-radius:10px; }
+button { padding:10px 15px; margin:5px; cursor:pointer; }
+.hidden { display:none; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Code Quest</h1>
+<p>By Lillian Tower</p>
+
+<p id="question"></p>
+<div id="answers"></div>
+<p>Score: <span id="score">0</span></p>
+
+<button onclick="nextQuestion()">Next Question</button>
+<button onclick="openModal()">Read How I Built This</button>
+
+<div id="win" class="hidden">
+<h2>You Win!</h2>
+</div>
+</div>
+
+<div id="modal" class="hidden">
+<div class="container">
+<h2>How I Built This</h2>
+<p>I used ChatGPT to generate HTML, CSS, and JavaScript. I learned how to create questions, track score, and build a simple interactive game.</p>
+<button onclick="closeModal()">Close</button>
+</div>
+</div>
+
+<script>
+let score = 0;
+let current = 0;
+
+const questions = [
+{q:"What is an Algorithm?", a:["A step-by-step solution","A variable","A number"], correct:0},
+{q:"What data type is 'hello'?", a:["Number","String","Boolean"], correct:1},
+{q:"What is a Boolean?", a:["True/False","Text","List"], correct:0},
+{q:"What does 7 % 3 equal?", a:["1","2","3"], correct:0},
+{q:"What is a Variable?", a:["A container for data","A loop","A function"], correct:0},
+{q:"What is an Index?", a:["Position in list","Math symbol","Value"], correct:0},
+{q:"colors[1] returns?", a:["red","blue","green"], correct:1},
+{q:"What is a Number type?", a:["Text","Boolean","Numeric value"], correct:2},
+{q:"What is a List?", a:["Collection of values","Single value","Operator"], correct:0},
+{q:"What does = do?", a:["Compare","Assign value","Add"], correct:1},
+{q:"What is an Expression?", a:["A result of code","A comment","A loop"], correct:0},
+{q:"What are + - * /?", a:["Strings","Operators","Lists"], correct:1}
+];
+
+function showQuestion(){
+let q = questions[current];
+document.getElementById("question").innerText = q.q;
+let answersDiv = document.getElementById("answers");
+answersDiv.innerHTML = "";
+q.a.forEach((ans,i)=>{
+let btn = document.createElement("button");
+btn.innerText = ans;
+btn.onclick = ()=>checkAnswer(i);
+answersDiv.appendChild(btn);
+});
+}
+
+function checkAnswer(i){
+if(i === questions[current].correct){ score++; }
+document.getElementById("score").innerText = score;
+}
+
+function nextQuestion(){
+current++;
+if(current >= questions.length){
+document.getElementById("win").classList.remove("hidden");
+} else { showQuestion(); }
+}
+
+function openModal(){ document.getElementById("modal").classList.remove("hidden"); }
+function closeModal(){ document.getElementById("modal").classList.add("hidden"); }
+
+showQuestion();
+</script>
+</body>
+</html>
